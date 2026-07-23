@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+/* Trade Gothic for headings and titles */
+
+/* THIS IS THE MAIN HEADER FONT */
+@font-face {
+	font-family: TradeGothicBold;
+	src: url("fonts/Trade Gothic LT Bold.ttf");
+}
+
+@font-face {
+	font-family: TradeGothicBoldOblique;
+	src: url("fonts/Trade Gothic LT Bold Oblique.ttf");
+}
+
+@font-face {
+	font-family: TradeGothicOblique;
+	src: url("fonts/Trade Gothic LT Oblique.ttf");
+}
+
+@font-face {
+	font-family: TradeGothic;
+	src: url("fonts/Trade Gothic LT.ttf");
+}
+
+@font-face {
+	font-family: TradeGothicLTLightOblique;
+	src: url("fonts/Trade Gothic LT Light Oblique.ttf");
+}
+
+@font-face {
+	font-family: TradeGothicLTLight;
+	src: url("fonts/Trade Gothic LT Light.ttf");
+}
+
+
+/* body text serif font*/
+
+@font-face {
+	font-family: GelasioRegular;
+	src: url("fonts/Gelasio-Regular.ttf");
+}
+@font-face {
+	font-family: GelasioItalic;
+	src: url("fonts/Gelasio-Italic.ttf");
+}
+@font-face {
+	font-family: GelasioBold;
+	src: url("fonts/Gelasio-Bold.ttf");
+}
+@font-face {
+	font-family: GelasioBoldItalic;
+	src: url("fonts/Gelasio-BoldItalic.ttf");
+}
+
+
+/* Inter for smaller text, labels, and UI elements */
+
+@font-face {
+	font-family: InterRegular;
+	src: url("fonts/Inter_24pt-Regular.ttf");
+}
+
+@font-face {
+	font-family: InterItalic;
+	src: url("fonts/Inter_24pt-Italic.ttf");
+}
+
+@font-face {
+	font-family: InterBold;
+	src: url("fonts/Inter_24pt-Bold.ttf");
+}
+
+@font-face {
+	font-family: InterBoldItalic;
+	src: url("fonts/Inter_24pt-BoldItalic.ttf");
+}
+
+
+/* POPPINS! */
+@font-face {
+	font-family: PoppinsLight;
+	src: url("fonts/Poppins-Light.ttf");
+}
+
+@font-face {
+	font-family: PoppinsLightItalic;
+	src: url("fonts/Poppins-LightItalic.ttf");
+}
+
+@font-face {
+	font-family: PoppinsRegular;
+	src: url("fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+	font-family: PoppinsItalic;
+	src: url("fonts/Poppins-Italic.ttf");
+}
+
+@font-face {
+	font-family: PoppinsMedium;
+	src: url("fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+	font-family: PoppinsMediumItalic;
+	src: url("fonts/Poppins-MediumItalic.ttf");
+}
+
+@font-face {
+	font-family: PoppinsSemiBold;
+	src: url("fonts/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+	font-family: PoppinsSemiBoldItalic;
+	src: url("fonts/Poppins-SemiBoldItalic.ttf");
+}
+
+@font-face {
+	font-family: PoppinsBold;
+	src: url("fonts/Poppins-Bold.ttf");
+}
+
+@font-face {
+	font-family: PoppinsBoldItalic;
+	src: url("fonts/Poppins-BoldItalic.ttf");
+}
+/* brand colours */
+
+:root {
+	/* font-family: OpenSans, sans-serif; */
+	--brandDarkBlue: #1E3765;
+	--brandMedBlue: #007FA3;
+	--brandLightBlue: #6FC7EA;
+	--brandPurple: #6D247A;
+	--brandPink: #AB1368;
+	--brandDarkGreen: #0D534D;
+	--brandMedGreen: #00A189;
+	--brandLightGreen: #8DBF2E;
+	--brandRed: #DC4633;
+	--brandYellow: #F1C500;
+	--brandOrange: #EBA00F;
+	--brandBlack: #000000;
+	--brandWhite: #ffffff;
+	--brandGray: #D0D1C9;
+	--brandGray50: #858585;
+	--brandGray60: #727272;
+	--brandGray70: #4d4d4d;
+	--brandGray80: #333333;
+	--brandGray90: #191919;
+	--ink: #16241b; --muted: #5d6b60; --faint: #8a978c;
+	--paper: #FBFAF6; --card: #ffffff; --line: #E4E1D5; --line2: #EFEDE4;
+	--pine: #1B6B45; --pine-dk: #124b30; --bright: #2FA76B;
+	--clay: #A85822; --clay-bg: #F6EADF; --clay-line: #E2C3A6;
+	--l1: #DEE9CB; --l2: #BCD691; --l3: #86BC53; --l4: #39854A;
+	--l1t: #3c4a22; --l2t: #34481f; --l3t: #214d16; --l4t: #ffffff;
+	--r: 12px; --r-sm: 8px;
+	--shadow: 0 1px 2px rgba(20,40,28,.05), 0 8px 24px rgba(20,40,28,.05);
+}
+
+html, body { 
+	margin: 0; 
+}
+
+body {
+	font-family: "Nunito", system-ui, sans-serif; color: var(--ink); background: var(--paper);
+	font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display {
+	font-family: "Bricolage Grotesque", "Nunito", sans-serif; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; margin: 0;
+}
+
+.mono { 
+	font-family: "IBM Plex Mono", monospace; 
+}
+
+a { 
+	color: var(--pine); 
+}
+
+button { font-family: inherit; }

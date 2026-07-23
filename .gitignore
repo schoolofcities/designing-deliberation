@@ -1,0 +1,35 @@
+node_modules
+data/residential-mobility/drafts
+local_data
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Modelling
+data_raw/
+local_data/
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+daniel-docs/
