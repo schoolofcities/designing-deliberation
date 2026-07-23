@@ -2,4 +2,4 @@
 
 # Designing Deliberation
 
-A process framework development tool created in collaboration with Daniel Fusca!
+A process framework development tool created by School of Cities in collaboration with Daniel Fusca!
