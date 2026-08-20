@@ -552,7 +552,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
     border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; font-size: 14px;
     display: flex; gap: 8px; align-items: center; background: #fff;
     }
-    .radioset input { accent-color: var(--pine); }
+    .radioset input { accent-color: var(--pine); margin: 0; }
     .radioset label.sel { border-color: var(--pine); background: #EAF3EC; color: var(--pine-dk); font-weight: 500; }
 
     /* ---------- Scorer ---------- */
@@ -591,7 +591,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
     .meter-score { display: flex; align-items: baseline; gap: 10px; }
     .meter-score .num { font-family: "IBM Plex Mono", monospace; font-size: 30px; color: var(--ink); }
     .meter-score .lab { font-size: 13px; color: var(--muted); }
-    .meter-level { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 20px; }
+    .meter-level { font-family: BricolageGrotesque, sans-serif; font-weight: 700; font-size: 20px; }
     .bar { position: relative; height: 34px; border-radius: 8px; overflow: hidden; display: grid; grid-template-columns: repeat(4, 1fr); }
     .bar .seg { display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 600; }
     .bar .s1 { background: var(--l1); color: var(--l1t); }
@@ -607,7 +607,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
     .result.proceed { border-left: 5px solid var(--bright); background: #F6FAF5; }
     .result.offramp { border-left: 5px solid var(--clay); background: var(--clay-bg); }
     .result .rl { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-    .result .badge { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 13px; padding: 4px 12px; border-radius: 999px; }
+    .result .badge { font-family: BricolageGrotesque, sans-serif; font-weight: 700; font-size: 13px; padding: 4px 12px; border-radius: 999px; }
     .result .gp { margin: 12px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .result .gp h4 { font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin: 0 0 4px; }
     .result .gp p { margin: 0; font-size: 13.5px; color: var(--muted); }
@@ -649,7 +649,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
     .reccard { border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; background: #F6FAF5; border-left: 5px solid var(--bright); margin-top: 8px; }
     .reccard.show { animation: fade .4s ease; }
     .reccard .rk { font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: 3px; }
-    .reccard .rp { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 22px; color: var(--pine-dk); }
+    .reccard .rp { font-family: BricolageGrotesque, sans-serif; font-weight: 700; font-size: 22px; color: var(--pine-dk); }
     .reccard .rr { margin-top: 10px; font-size: 14px; }
     .reccard .rr b { color: var(--ink); }
     .reccard .why { margin-top: 10px; color: var(--muted); font-size: 14px; }

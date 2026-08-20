@@ -126,6 +126,23 @@
 	font-family: PoppinsBoldItalic;
 	src: url("fonts/Poppins-BoldItalic.ttf");
 }
+
+@font-face {
+	font-family: NunitoSans;
+	src: url("fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf");
+}
+
+@font-face {
+	font-family: NunitoSansItalic;
+	src: url("fonts/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf");
+}
+
+@font-face {
+	font-family: BricolageGrotesque;
+	src: url("fonts/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf");
+}
+
+
 /* brand colours */
 
 :root {
@@ -151,10 +168,11 @@
 	--brandGray90: #191919;
 	--ink: #16241b; --muted: #5d6b60; --faint: #8a978c;
 	--paper: #FBFAF6; --card: #ffffff; --line: #E4E1D5; --line2: #EFEDE4;
-	--pine: #1B6B45; --pine-dk: #124b30; --bright: #2FA76B;
+	--pine: #1B6B45; --pine-dk: #124b30; --bright: #020202;
 	--clay: #A85822; --clay-bg: #F6EADF; --clay-line: #E2C3A6;
 	--l1: #DEE9CB; --l2: #BCD691; --l3: #86BC53; --l4: #39854A;
 	--l1t: #3c4a22; --l2t: #34481f; --l3t: #214d16; --l4t: #ffffff;
+	--selected-bg: #EAF3EC;
 	--r: 12px; --r-sm: 8px;
 	--shadow: 0 1px 2px rgba(20,40,28,.05), 0 8px 24px rgba(20,40,28,.05);
 }
@@ -164,12 +182,12 @@ html, body {
 }
 
 body {
-	font-family: "Nunito", system-ui, sans-serif; color: var(--ink); background: var(--paper);
+	font-family: NunitoSans, system-ui, sans-serif; color: var(--ink); background: var(--paper);
 	font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, .display {
-	font-family: "Bricolage Grotesque", "Nunito", sans-serif; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; margin: 0;
+	font-family: BricolageGrotesque, NunitoSans, sans-serif; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; margin: 0;
 }
 
 .mono { 
@@ -178,6 +196,10 @@ h1, h2, h3, .display {
 
 a { 
 	color: var(--pine); 
+}
+
+p {
+	font-family: NunitoSans, system-ui, sans-serif;
 }
 
 button { font-family: inherit; }

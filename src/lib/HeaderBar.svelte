@@ -16,7 +16,7 @@
         {/if}
     </div>
     <div class="links">
-        <a href="/designing-deliberation/prototype" class="page-link" class:current={page === "Interactive Tool"}>Interactive Tool</a>
+        <a href="/designing-deliberation/framework-tool" class="page-link" class:current={page === "Interactive Tool"}>Interactive Tool</a>
         <a href="/designing-deliberation/case-studies" class="page-link" class:current={page === "Case Studies"}>Case Studies</a>
         <a href="/designing-deliberation/concept-library" class="page-link" class:current={page === "Concept Library"}>Concept Library</a>
         <a href="/designing-deliberation/resources" class="page-link" class:current={page === "Resources"}>Resources</a>
@@ -43,7 +43,7 @@
     }
 
     header.top .brand .t { 
-        font-family: "Bricolage Grotesque", sans-serif; 
+        font-family: BricolageGrotesque, sans-serif; 
         font-weight: 700; 
         font-size: 18px; 
         letter-spacing: -.01em; 
@@ -82,7 +82,7 @@
 
     a {
         color: white;
-        font-family: "Nunito Sans";
+        font-family: NunitoSans;
         font-weight: bold;
         text-decoration: none;
     }
