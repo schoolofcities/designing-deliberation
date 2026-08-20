@@ -74,7 +74,7 @@
                 <TierToggle bind:tierToggled hasPreset={userState[0].hasPreset} recommendedOn={currentTier.defaultToggled}/>   
             </div>
             {#if tierToggled}
-                <SectionHeader section="Engagement Disposition" recommended={currentTier.recommendedDisposition}/>
+                <SectionHeader section="Input Openness" recommended={currentTier.recommendedDisposition}/>
                 <RadioButtons bind:selected={currentUserState.disposition}/>
 
                 <SectionHeader section="Components" max={currentTier.max}/>

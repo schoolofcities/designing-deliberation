@@ -1,8 +1,8 @@
 <script>
     let {
         values = [
-            "Given",
-            "Validate",
+            "Fixed",
+            "Confirm",
             "Co-create"
         ],
         selected = $bindable(),

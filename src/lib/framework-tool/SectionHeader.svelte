@@ -6,15 +6,15 @@
     } = $props();
 
     let description = $derived.by(() => {
-        if (section == "Engagement Disposition") {
-            return "Select a disposition tag. Recommended: " + recommended.join(" or ");  
+        if (section == "Input Openness") {
+            return "Select a level of openness to public input. Recommended: " + recommended.join(" or ");  
         } else if (section == "Components") {
             return "Select " + (max == -1  ? "your components (no maximum)." : (max > 1 ? "up to " + max + " components." : "1 component."));
         }
     });
     let tooltip = $derived.by(() => {
-        if (section == "Engagement Disposition") {
-            return "Each activated tier is tagged Given (fixed input, presented for information — e.g., a statutory purpose and need), Validate (drafted by the project team, tested and refined through engagement), or Co-create (developed with the community). This tag is the bridge between the framework and the rest of the tool — it defines what is actually being engaged on.";
+        if (section == "Input Openness") {
+            return "Each activated tier is tagged Fixed (presented for information — e.g., a statutory purpose and need), Confirm (drafted by the project team, tested and refined through engagement), or Co-create (developed with the community). This tag is the bridge between the framework and the rest of the tool — it defines what is actually being engaged on.";
         } else if (section == "Components") {
             return "A named element that can occupy a tier (e.g., “Vision Statement,” “Guiding Principles,” “Big Moves”). Components within a tier are functionally interchangeable; the choice is one of tone, sector convention, and emphasis.";
         }

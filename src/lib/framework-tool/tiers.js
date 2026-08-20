@@ -4,7 +4,7 @@ export const tiers = [
         question: "Why now? Why this?",
         description: "",
         defaultToggled: false,
-        recommendedDisposition: ["Given", "Validate"],
+        recommendedDisposition: ["Fixed", "Confirm"],
         max: -1,
         components: [
             {
@@ -53,7 +53,7 @@ export const tiers = [
         title: "Tier 2 - Aspiration",
         question: "Where are we going?",
         defaultToggled: true,
-        recommendedDisposition: ["Validate", "Co-create"],
+        recommendedDisposition: ["Confirm", "Co-create"],
         max: 1,
         components: [
             {
@@ -78,7 +78,7 @@ export const tiers = [
         title: "Tier 3 - Guideposts",
         question: "What will guide our choices?",
         defaultToggled: true,
-        recommendedDisposition: ["Validate", "Co-create"],
+        recommendedDisposition: ["Confirm", "Co-create"],
         max: -1,
         components: [
             {
@@ -115,7 +115,7 @@ export const tiers = [
         title: "Tier 4 - Organising Structure ",
         question: "What will we focus on?",
         defaultToggled: true,
-        recommendedDisposition: ["Validate", "Co-create"],
+        recommendedDisposition: ["Confirm", "Co-create"],
         max: -1,
         components: [
             {
