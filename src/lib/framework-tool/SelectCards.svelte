@@ -4,13 +4,13 @@
 
     let {
         selected = $bindable([]),
+        customComponent = $bindable(null),
         max,
         components,
+        hasCustom = true
     } = $props();
 
     let multi = $derived(max == -1 || max > 1);
-
-    let customComponent = $state(null);
 
     const selectCard = (title) => {
         if (multi) {
@@ -29,7 +29,6 @@
         ? !!selected?.includes(title)
         : selected?.[0] === title;
 
-    // keep `selected` in sync if the custom card's title changes after being selected
     const handleCustomChange = (newValue, oldValue) => {
         const oldTitle = oldValue?.title;
         if (oldTitle && newValue?.title !== oldTitle && isSelected(oldTitle)) {
@@ -55,12 +54,14 @@
             selectCard={selectCard}
         />
     {/each}
-    <CustomSelectBox
-        bind:value={customComponent}
-        multi={multi}
-        selected={customComponent ? isSelected(customComponent.title) : false}
-        selectCard={selectCard}
-    />
+    {#if hasCustom}
+        <CustomSelectBox
+            bind:value={customComponent}
+            multi={multi}
+            selected={customComponent ? isSelected(customComponent.title) : false}
+            selectCard={selectCard}
+        />
+    {/if}
 </div>
 
 <style>    

@@ -1,6 +1,6 @@
 <script>
     import { slide } from 'svelte/transition';
-    import { tiers } from './tiers';
+    import { tiers } from './tiersAndPresets';
     import Checkmark from '$lib/icons/Checkmark.svelte';
     import CurvedArrow from '$lib/icons/CurvedArrow.svelte';
 
@@ -9,17 +9,40 @@
         progress,
     } = $props();
 
+    let maxVisited = $state(0);
+
+    $effect(() => {
+        if (currentTierIndex > maxVisited) {
+            maxVisited = currentTierIndex;
+        }
+    });
+
     const toggleTier = (index) => {
-        currentTierIndex = index;
+        if (index <= maxVisited) {
+            currentTierIndex = index;  
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }
 
     const steps = [{ type: 'mode-select', title: "Choose a Starting Point", description: "Use a preset framework template to get you started, or build a framework from scratch!" }, ...tiers.map(t => ({ type: 'tier', ...t }))];
+
+    let tierInfo = (tier) => {
+        if (tier.description) {
+            return tier.description;
+        }
+        else if (tier.branch) {
+            return "Select a branch type & components"
+        }
+        else {
+            return "Select an input openness level & components"
+        }
+    } 
 </script>
 
 <div class="progress-menu">
     {#each steps as tier, index}
         <div class="tier {currentTierIndex == index ? "active" : ""}">
-            <button class="tier-header" onclick={() => toggleTier(index)}>
+            <button class="tier-header {index > maxVisited ? "locked" : ""}" onclick={() => toggleTier(index)}>
                     <h3>{String(index).padStart(2, '0')}. {tier.title}</h3>
                 <div class="title-check">
                     {#if index < currentTierIndex} 
@@ -34,10 +57,15 @@
                     </svg>
                 </div>
             </button>
-            {#if (currentTierIndex == index && tier.description) || progress[index].selected.length > 0}
+            {#if (currentTierIndex == index && progress[index].toggled) || (currentTierIndex == 0 && currentTierIndex == index) || (progress[index].toggled && index <= currentTierIndex && (progress[index].disposition || progress[index].selected.length > 0))}
                 <div class="tier-content" transition:slide={{ duration: 200 }}>
-                    <p>{tier.description}</p>
-                    {#if progress[index].selected.length > 0} 
+                    {#if (currentTierIndex == index && progress[index].toggled && !(progress[index].disposition || progress[index].selected.length > 0)) || (currentTierIndex == 0 && currentTierIndex == index)}
+                        <p class:italic={!tier.description}>{tierInfo(tier)}</p>
+                    {/if}
+                    {#if progress[index].disposition} 
+                        <p class="tier-disposition">{progress[index].disposition}</p>
+                    {/if}
+                    {#if progress[index].toggled && progress[index].selected.length > 0} 
                         <div class="selected-list">
                             <CurvedArrow/>
                             <p>
@@ -84,6 +112,10 @@
         min-height: 48px;
     }
 
+    .tier-header.locked {
+        opacity: 50%;
+    }
+
     .tier-header h3 {
         margin: 0;
         font-size: 12px;
@@ -114,8 +146,14 @@
         color: var(--pine);
     }
 
+
     .chevron.open {
         transform: rotate(180deg);
+    }
+
+    .tier.active {
+        background-color: var(--pine-light, #f0f5f3);
+        border-left: 3px solid var(--pine);
     }
 
     .tier-content {
@@ -136,5 +174,14 @@
 
     .selected-list p {
         text-wrap: wrap;
+    }
+
+    .tier-disposition {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .italic {
+        font-style: italic;
     }
 </style>

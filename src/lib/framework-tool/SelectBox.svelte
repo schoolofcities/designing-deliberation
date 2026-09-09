@@ -42,6 +42,7 @@
         >Edit</span>
     {/if}
     <div class="card-text">
+        <div class="wrap-spacer"></div>
         <h3>{title}</h3>
         <p>{description}</p>
     </div>
@@ -110,11 +111,16 @@
         right: 7.5px;
     }
 
+    .wrap-spacer {
+        float: right;
+        width: 21px;
+        height: 30px;
+        shape-outside: inset(0);
+    }
+
     h3 {
         font-size: 20px;
         padding-bottom: 2px;
-        align-self: end;
-        padding-right: 15px;
     }
 
     p {

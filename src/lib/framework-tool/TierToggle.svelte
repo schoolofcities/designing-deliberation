@@ -1,9 +1,10 @@
 <script>
     let {
         tierToggled = $bindable(false),
-        hasPreset = true,
+        hasPreset,
         presetOn,
-        recommendedOn, // for users who have opted to not use a preset
+        recommendedOn,
+        toggleFunction,
     } = $props();
 
     let statusLabel = $derived.by(() => {
