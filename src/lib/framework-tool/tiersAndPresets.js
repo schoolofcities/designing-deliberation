@@ -4,7 +4,7 @@ export const tiers = [
         question: "Why now? Why this?",
         description: "",
         defaultToggled: false,
-        recommendedDisposition: ["Fixed", "Confirm"],
+        recommendedDisposition: ["Fixed", "Inform / Confirm"],
         max: -1,
         branch: false,
         components: [
@@ -53,8 +53,9 @@ export const tiers = [
     {
         title: "Tier 2 - Aspiration",
         question: "Where are we going?",
+        description: "",
         defaultToggled: true,
-        recommendedDisposition: ["Confirm", "Co-create"],
+        recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: 1,
         branch: false,
         components: [
@@ -79,8 +80,9 @@ export const tiers = [
     {
         title: "Tier 3 - Guideposts",
         question: "What will guide our choices?",
+        description: "",
         defaultToggled: true,
-        recommendedDisposition: ["Confirm", "Co-create"],
+        recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: -1,
         branch: false,
         components: [
@@ -95,10 +97,6 @@ export const tiers = [
             {
                 title: "Commitments",
                 description: "Stronger, accountability-flavoured; equity, reconciliation, and climate plans."
-            }, 
-            {
-                title: "Lenses (equity, climate…)",
-                description: "Cross-cutting overlays applied at every tier rather than occupying one."
             }, 
             {
                 title: "Design Principles",
@@ -117,8 +115,9 @@ export const tiers = [
     {
         title: "Tier 4 - Organising Structure ",
         question: "What will we focus on?",
+        description: "",
         defaultToggled: true,
-        recommendedDisposition: ["Confirm", "Co-create"],
+        recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: -1,
         branch: false,
         components: [
@@ -162,13 +161,18 @@ export const tiers = [
                 title: "Systems",
                 description: "Functional; asset-based plans (parks systems, mobility systems)."
             }, 
+            {
+                title: "Lenses (equity, climate…)",
+                description: "Cross-cutting overlays applied at every tier rather than occupying one."
+            }, 
         ],
     },
     {
         title: "Tier 5 - Intent or Alternatives",
+        description: "",
         question: null,
         defaultToggled: true,
-        recommendedDisposition: ["Confirm", "Co-create"],
+        recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: -1,
         branch: true,
         components: {
@@ -228,9 +232,10 @@ export const tiers = [
     },
     {
         title: "Tier 6 - Action",
+        description: "",
         question: "What will we actually do?",
         defaultToggled: true,
-        recommendedDisposition: ["Confirm", "Co-create"],
+        recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: 3,
         branch: false,
         components: [
@@ -270,9 +275,10 @@ export const tiers = [
     },
     {
         title: "Tier 7 - Accountability",
+        description: "",
         question: "How will we know? Who does what?",
         defaultToggled: true,
-        recommendedDisposition: ["Fixed", "Confirm"],
+        recommendedDisposition: ["Fixed", "Inform / Confirm"],
         max: 3,
         branch: false,
         components: [

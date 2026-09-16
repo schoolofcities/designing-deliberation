@@ -12,7 +12,7 @@
     };
 </script>
 
-<button onclick={handleClick} disabled={disabled}>
+<button onclick={handleClick} disabled={disabled} class="{type}">
     {type}
 </button>
 
@@ -36,5 +36,11 @@
     button:disabled {
         opacity: 0.35;
         cursor: not-allowed;
+    }
+
+    .back {
+        background-color: var(--paper);
+        color: var(--pine);
+        border: 1px solid var(--pine);
     }
 </style>

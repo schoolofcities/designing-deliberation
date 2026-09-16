@@ -9,6 +9,8 @@
         selected = false,
         selectCard,
         onEdit,
+        ordered = false,
+        orderIndex,
     } = $props();
 
     const clickFunction = () => {
@@ -26,10 +28,10 @@
         {#if onEdit}   
             <span class="custom-component-label">Custom Component</span>
         {/if}
-        {#if multi}
-            <CheckSquare size={31} selected={selected}/>
-        {:else}
+        {#if !multi}
             <CheckCircle size={31} selected={selected}/>
+        {:else}
+            <CheckSquare size={31} selected={selected} orderIndex={orderIndex}/>
         {/if}
     </div>
     {#if onEdit}

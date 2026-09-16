@@ -9,7 +9,6 @@
     let scenarios = $page.data.scenarios;
 
     function goTo(index) {
-		console.log(index);
         selectedIndex = index;
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }

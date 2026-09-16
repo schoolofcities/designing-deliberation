@@ -5,8 +5,10 @@
 
     let {
         userState,
+        collapseTiers = false,
     } = $props();
 
+    let preset = $derived(userState[0].presetName[0]);
     let diagramEl;
     let isGenerating = $state(false);
 
@@ -41,7 +43,6 @@
             img.src = dataUrl;
             await new Promise((resolve) => { img.onload = resolve; });
 
-            // Explicit A4 dimensions in px at 96 DPI — avoids jsPDF's px+"a4" string conversion bug
             const A4_WIDTH_PX = 794;
             const A4_HEIGHT_PX = 1123;
 
@@ -52,23 +53,28 @@
             const pdf = new jsPDF({
                 orientation: isLandscape ? "landscape" : "portrait",
                 unit: "px",
-                format: [pageWidth, pageHeight], // explicit array, not the "a4" string
+                format: [pageWidth, pageHeight],
             });
 
+            const MARGIN = 40; 
+
+            const availWidth  = pageWidth  - MARGIN * 2;
+            const availHeight = pageHeight - MARGIN * 2;
+
             const canvasRatio = img.width / img.height;
-            const pageRatio = pageWidth / pageHeight;
+            const pageRatio = availWidth / availHeight;
 
             let renderWidth, renderHeight;
             if (canvasRatio > pageRatio) {
-                renderWidth = pageWidth;
-                renderHeight = pageWidth / canvasRatio;
+                renderWidth = availWidth;
+                renderHeight = availWidth / canvasRatio;
             } else {
-                renderHeight = pageHeight;
-                renderWidth = pageHeight * canvasRatio;
+                renderHeight = availHeight;
+                renderWidth = availHeight * canvasRatio;
             }
 
-            const x = (pageWidth - renderWidth) / 2;
-            const y = (pageHeight - renderHeight) / 2;
+            const x = MARGIN + (availWidth - renderWidth) / 2;
+            const y = MARGIN + (availHeight - renderHeight) / 2;
 
             pdf.addImage(dataUrl, "PNG", x, y, renderWidth, renderHeight);
             pdf.save("framework-diagram.pdf");
@@ -77,6 +83,43 @@
         }
     }
 </script>
+
+<div class="diagram" bind:this={diagramEl}>
+    <h1>{preset} Framework Diagram</h1>
+    {#each userState as tier, index}
+        {#if tier.toggled}
+            <div class="tier" style="--tier-colour: {tierColours[(index - 1)]};">
+                <h3>{tier.title}</h3>
+                {#if tier.disposition}
+                    <p class="tier-disposition">{tier.disposition.toUpperCase()}</p>
+                {/if}
+                {#if tier.branch}
+                    <p class="tier-disposition">{tier.branch.toUpperCase()}</p>
+                {/if}
+
+                {#if collapseTiers}
+                    <div class="collapsed-components"
+                        style="grid-template-columns: repeat({tier.selected.length}, 1fr); 
+                            --col-count: {tier.selected.length};
+                            --divider-gradient: {dividerGradient(tier.selected.length)};">
+                        {#each tier.selected as component, i}
+                            <div class="collapsed-component" 
+                                style="padding-top: calc(25px + {centerPadding(i, tier.selected.length)}px);">
+                                <p class="component-text">{component}</p>
+                            </div>
+                        {/each}
+                    </div>
+                {:else}
+                    {#each tier.selected as component, i}
+                        <div class="component">
+                            <p class="component-text">{component}</p>
+                        </div>
+                    {/each}
+                {/if}
+            </div>
+        {/if}
+    {/each}
+</div>
 
 
 <button onclick={downloadAsPdf} disabled={isGenerating} class="download-btn">
@@ -88,52 +131,29 @@
     {/if}
 </button>
 
-<div class="diagram" bind:this={diagramEl}>
-    {#if userState[0].hasPreset}
-        <p class="preset-description">This framework was built from a preset template. You can edit the framework by changing the selected components, or by changing the input openness level.</p>
-    {/if}
-    {#each userState as tier, index}
-        {#if tier.toggled}
-            <div class="tier" style="--tier-colour: {tierColours[(index - 1)]};">
-                <h3>{tier.title}</h3>
-                {#if tier.disposition}
-                    <p class="tier-disposition">{tier.disposition.toUpperCase()}</p>
-                {/if}
-                <div class="components"
-                    style="grid-template-columns: repeat({tier.selected.length}, 1fr); 
-                        --col-count: {tier.selected.length};
-                        --divider-gradient: {dividerGradient(tier.selected.length)};">
-                    {#each tier.selected as component, i}
-                        <div class="component" 
-                             style="padding-top: calc(25px + {centerPadding(i, tier.selected.length)}px);">
-                            <p class="component-text">{component}</p>
-                        </div>
-                    {/each}
-                </div>
-            </div>
-        {/if}
-    {/each}
-</div>
-
 <style>
     .diagram {
         width: 100%;
-        max-width: 800px; /* match .components, or whatever your intended diagram width is */
+        max-width: 800px;
     }
 
-    .components {
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .collapsed-components {
         display: grid;
         position: relative; 
         max-width: 800px;
         width: 100%;
     }
 
-    .components::before {
+    .collapsed-components::before {
         content: "";
         position: absolute;
         bottom: -26px;
         left: 50%;
-        width: calc(100% + 8px);   /* grow outward instead of ::after shrinking inward */
+        width: calc(100% + 8px);   
         height: 25px;
         background-color: var(--line);
         clip-path: polygon(0 0, 100% 0, 50% 100%);
@@ -141,7 +161,7 @@
         z-index: 1;
     }
 
-    .components::after {
+    .collapsed-components::after {
         content: "";
         position: absolute;
         bottom: -23px;
@@ -155,7 +175,7 @@
         z-index: 2;
     }
 
-    .component {
+    .collapsed-component {
         position: relative; 
         background-color: var(--tier-colour);
         border: 2px solid var(--line);
@@ -172,33 +192,53 @@
         word-break: normal;
         padding: 0;
         margin: 0;
-        color: var(--line);
+        color: var(--paper);
         font-weight: 800;
+    }
+
+    .component .component-text {
+        font-size: 25px;
     }
 
     .tier {
         position: relative; 
-        padding-left: 20px;
+        padding-left: 45px;
     }
 
     .tier-disposition {
         position: absolute;
         left: 0px;
         top: 50%;
-        transform: rotate(-90deg) translateX(-50%);
-        transform-origin: left top;
-        white-space: nowrap;
+        width: 75px;            
+        transform-origin: center bottom;
+        transform: translateY(-100%) rotate(-90deg);
+        white-space: normal;
         padding: 0;
         margin: 0;
         font-size: 12px;
+        text-align: center;
+        text-wrap: wrap;
     }
 
-    .tier:last-of-type .components::before,
-    .tier:last-of-type .components::after {
+    .tier::after {
+        content: "";
+        position: absolute;
+        left: 37px;
+        top: 0;
+        width: 5px; 
+        transform: translateY(5%);
+        height: 90%;
+        border: 1px solid var(--ink);
+        border-right: none; 
+        z-index: 10;
+    }
+
+    .tier:last-of-type .collapsed-components::before,
+    .tier:last-of-type .collapsed-components::after {
         display: none;
     }
 
-    .tier:last-of-type .component{
+    .tier:last-of-type .collapsed-component{
         padding-bottom: 20px;
     }
 
@@ -233,6 +273,69 @@
         border-top-color: currentColor;
         border-radius: 50%;
         animation: spin 0.7s linear infinite;
+    }
+
+
+    .component {
+        display: grid;
+        position: relative; 
+        max-width: 800px;
+        width: 100%;
+        position: relative; 
+        background-color: var(--tier-colour);
+        border: 2px solid var(--line);
+        padding-bottom: 10px;
+        flex-grow: 1;
+        text-align: center;
+        overflow: visible; 
+        box-sizing: border-box;
+        min-width: 0;   
+        padding-top: 45px;
+    }
+
+    .component::before {
+        content: "";
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        width: calc(100% + 8px); 
+        height: 25px;
+        background-color: var(--line);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .component::after {
+        content: "";
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        width: 100%;
+        height: 25px;
+        background-color: var(--tier-colour);
+        background-image: var(--divider-gradient);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
+    .tier:first-of-type .component:first-of-type {
+        padding-top: 25px;
+    }
+
+    
+    .tier:last-of-type .component:last-of-type::before,
+    .tier:last-of-type .component:last-of-type::after {
+        display: none;
+    }
+
+    .tier:last-of-type .component:last-of-type{
+        padding-bottom: 25px;
+    }
+
+    .download-btn {
+        margin-top: 20px;
     }
 
     @keyframes spin {

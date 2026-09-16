@@ -5,6 +5,7 @@
         selected = false,
         multi,
         selectCard,
+        orderIndex,
     } = $props();
 
     let editing = $state(false);
@@ -57,6 +58,7 @@
         selected={selected}
         selectCard={selectCard}
         onEdit={startEditing}
+        orderIndex={orderIndex}
     />
 {:else}
     <button class="card empty" onclick={cardClick}>

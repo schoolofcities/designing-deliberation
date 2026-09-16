@@ -18,10 +18,12 @@
 	<div class="level-choices">
 		<button class="choice-box beginner">
 			<h2> I am a beginner</h2>
+			<p>Guide me through the process step-by-step!</p>
 		</button>
 
 		<button class="choice-box experienced">
 			<h2> I have experience doing this! </h2>
+			<p>Take me directly to the framework builder tool!</p>
 		</button>
 	</div>
 </div>

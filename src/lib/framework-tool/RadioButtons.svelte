@@ -2,7 +2,7 @@
     let {
         values = [
             "Fixed",
-            "Confirm",
+            "Inform / Confirm",
             "Co-create"
         ],
         selected = $bindable(),
@@ -11,7 +11,7 @@
 
 <div class="radioset">
     {#each values as value}
-        <label class:sel={selected === value}><input type="radio" bind:group={selected} value={value} /> {value}</label>
+        <label class:sel={selected === value}><input type="radio" bind:group={selected} value={value}/> {value}</label>
     {/each}
 </div>
 
