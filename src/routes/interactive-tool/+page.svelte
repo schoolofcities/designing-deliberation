@@ -1,6 +1,7 @@
 <script>
+    import FrameworkTool from "$lib/FrameworkTool.svelte";
     import HeaderBar from "$lib/HeaderBar.svelte";
-import TogglePanel from "$lib/icons/TogglePanel.svelte";
+    import TogglePanel from "$lib/icons/TogglePanel.svelte";
 
     const QUESTIONS = [
     "What is the anticipated level of conflict, concern, controversy, or opportunity related to this project?",
@@ -164,6 +165,10 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
     function onGateChange() {
         gateTouched = true;
     }
+
+    // framework tool variables
+    let frameworkState = $state([]);
+    let frameworkFinished = $state(false);
 </script>
 
 <svelte:head>
@@ -187,7 +192,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
                     onclick={() => goTo(n)}
                 >
                     <span class="num">{String(n).padStart(2, "0")}</span>
-                    <span style>{label}</span>
+                    <span style="{panelOpen ? "": "display: none"}">{label}</span>
                 </button>
                 {/each}
             </div>
@@ -389,28 +394,36 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
 
         <!-- STEPS 5-10 — BUILD (generated) -->
         {#each BUILD as d}
-        {#if current === d.step}
-            <section class="step show">
-            <div class="eyebrow">{d.ph}</div>
-            <h2 class="title">{d.t}</h2>
-            <div class="preview-note"><span>○</span> Build phase — interactive design to be developed with the School of Cities</div>
-            <div class="pcard">
-                <div class="pq">{d.q}</div>
-                <div class="exrow">
-                <div class="ex good"><h5>Strong response</h5><p>{d.good}</p></div>
-                <div class="ex bad"><h5>Weak response</h5><p>{d.bad}</p></div>
+            {#if current === 9 && current === d.step}
+                <div class="eyebrow">{d.ph}</div>
+                <FrameworkTool bind:userState={frameworkState} bind:finished={frameworkFinished}/>
+                <div class="navbtns">
+                    <button class="btn ghost" onclick={() => goTo(d.step - 1)}>Back</button>
+                    <button class="btn primary" onclick={() => goTo(d.step + 1)} disabled={!frameworkFinished}>Continue</button>
+                    <span class="stepcount">Step {d.step} of 11</span>
                 </div>
-            </div>
-            <p class="lead" style="font-size:14px; margin-top:6px">
-                Each build module pairs the worksheet question with live coaching drawn from the facilitator's guide — good and weak examples, and a "sharpen this answer" check.
-            </p>
-            <div class="navbtns">
-                <button class="btn ghost" onclick={() => goTo(d.step - 1)}>Back</button>
-                <button class="btn primary" onclick={() => goTo(d.step + 1)}>Continue</button>
-                <span class="stepcount">Step {d.step} of 11</span>
-            </div>
-            </section>
-        {/if}
+            {:else if current === d.step}
+                <section class="step show">
+                <div class="eyebrow">{d.ph}</div>
+                <h2 class="title">{d.t}</h2>
+                <div class="preview-note"><span>○</span> Build phase — interactive design to be developed with the School of Cities</div>
+                <div class="pcard">
+                    <div class="pq">{d.q}</div>
+                    <div class="exrow">
+                    <div class="ex good"><h5>Strong response</h5><p>{d.good}</p></div>
+                    <div class="ex bad"><h5>Weak response</h5><p>{d.bad}</p></div>
+                    </div>
+                </div>
+                <p class="lead" style="font-size:14px; margin-top:6px">
+                    Each build module pairs the worksheet question with live coaching drawn from the facilitator's guide — good and weak examples, and a "sharpen this answer" check.
+                </p>
+                <div class="navbtns">
+                    <button class="btn ghost" onclick={() => goTo(d.step - 1)}>Back</button>
+                    <button class="btn primary" onclick={() => goTo(d.step + 1)}>Continue</button>
+                    <span class="stepcount">Step {d.step} of 11</span>
+                </div>
+                </section>
+            {/if}
         {/each}
 
         <!-- STEP 11 — GENERATE -->
@@ -457,7 +470,6 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
 </div>
 
 <style>
-
     
     .toggle-panel {
         margin-top: -15px;
@@ -530,7 +542,7 @@ import TogglePanel from "$lib/icons/TogglePanel.svelte";
 
 
     /* ---------- Main ---------- */
-    main { padding: 34px 40px 80px; max-width: 920px; }
+    main { padding: 34px 40px 80px; max-width: 1500px; }
     .eyebrow { font-size: 11.5px; letter-spacing: .10em; text-transform: uppercase; color: var(--bright); font-weight: 600; margin-bottom: 10px; }
     .step { animation: fade .35s ease; }
     @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
