@@ -2,7 +2,7 @@ export const tiers = [
     {
         title: "Tier 1 - Case for Change",
         question: "Why now? Why this?",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         defaultToggled: false,
         recommendedDisposition: ["Fixed", "Inform / Confirm"],
         max: -1,
@@ -53,7 +53,7 @@ export const tiers = [
     {
         title: "Tier 2 - Aspiration",
         question: "Where are we going?",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         defaultToggled: true,
         recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: 1,
@@ -80,7 +80,7 @@ export const tiers = [
     {
         title: "Tier 3 - Guideposts",
         question: "What will guide our choices?",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         defaultToggled: true,
         recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: -1,
@@ -115,7 +115,7 @@ export const tiers = [
     {
         title: "Tier 4 - Organising Structure ",
         question: "What will we focus on?",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         defaultToggled: true,
         recommendedDisposition: ["Inform / Confirm", "Co-create"],
         max: -1,
@@ -169,7 +169,7 @@ export const tiers = [
     },
     {
         title: "Tier 5 - Intent or Alternatives",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         question: null,
         defaultToggled: true,
         recommendedDisposition: ["Inform / Confirm", "Co-create"],
@@ -232,7 +232,7 @@ export const tiers = [
     },
     {
         title: "Tier 6 - Action",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         question: "What will we actually do?",
         defaultToggled: true,
         recommendedDisposition: ["Inform / Confirm", "Co-create"],
@@ -275,7 +275,7 @@ export const tiers = [
     },
     {
         title: "Tier 7 - Accountability",
-        description: "",
+        description: "[DESCRIPTION TEXT IN QUOTES HERE]",
         question: "How will we know? Who does what?",
         defaultToggled: true,
         recommendedDisposition: ["Fixed", "Inform / Confirm"],

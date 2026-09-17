@@ -1,6 +1,7 @@
 <script>
 	import HeaderBar from '$lib/HeaderBar.svelte';
 	import '../assets/global-styles.css'; 
+	import { base } from '$app/paths';
 
 </script>
 
@@ -16,15 +17,15 @@
 	<h1>Designing Deliberation</h1>
 	<p>This will be copy explaining the framework. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	<div class="level-choices">
-		<button class="choice-box beginner">
+		<a href="/designing-deliberation/case-studies" class="choice-box beginner">
 			<h2> I am a beginner</h2>
 			<p>Guide me through the process step-by-step!</p>
-		</button>
+		</a>
 
-		<button class="choice-box experienced">
+		<a href="/designing-deliberation/interactive-tool" class="choice-box experienced">
 			<h2> I have experience doing this! </h2>
 			<p>Take me directly to the framework builder tool!</p>
-		</button>
+		</a>
 	</div>
 </div>
 

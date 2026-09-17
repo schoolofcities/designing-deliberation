@@ -1,4 +1,5 @@
 <script>
+    import Diagram from "$lib/framework-tool/Diagram.svelte";
     import FrameworkTool from "$lib/FrameworkTool.svelte";
     import HeaderBar from "$lib/HeaderBar.svelte";
     import TogglePanel from "$lib/icons/TogglePanel.svelte";
@@ -53,19 +54,19 @@
     ];
 
     const BUILD = [
-    { step: 5, ph: "Build · 05", t: "Role & mandate",
+    { step: 5, ph: "Build · 05", t: "Role & mandate", key: "roleMandate",
         q: "What, specifically, will the deliberative body do — and what influence will it have: advise, or make recommendations? Over which decisions? What's in and out of scope?",
         good: "Advise staff on the desirability and feasibility of proposed actions; co-develop recommendations to inform Council.",
         bad: "Help the City understand issues." },
-    { step: 6, ph: "Build · 06", t: "Representation & selection",
+    { step: 6, ph: "Build · 06", t: "Representation & selection", key: "representation",
         q: "Which perspectives, experiences, and demographics must be at the table — and how will members be selected?",
         good: "Residents selected by civic lottery with oversampling of equity-deserving communities; a mix of renters, owners, daily and non-users.",
         bad: "Anyone who wants to participate." },
-    { step: 7, ph: "Build · 07", t: "Learning needs",
+    { step: 7, ph: "Build · 07", t: "Learning needs", key: "learningNeeds",
         q: "What knowledge, context, and skills must members have to deliberate well and make informed judgements?",
         good: "How decisions get made at the City; natural-heritage requirements; current operational realities.",
         bad: "Give them some background information." },
-    { step: 8, ph: "Build · 08", t: "Broader public engagement",
+    { step: 8, ph: "Build · 08", t: "Broader public engagement", key: "broaderEngagement",
         q: "What should the wider public contribute that the deliberative body alone cannot generate — ideas, lived experience, trade-offs, validation — and when?",
         good: "Collect lived experience early; seek feedback on the options the body has shortlisted.",
         bad: "Engage early and often." },
@@ -73,7 +74,7 @@
         q: "Map the building blocks of your process into phases, and define the body's role in each. (Shown for project-based, multi-phase structures.)",
         good: "Drivers → Vision → Principles → Big Moves → Options → Preferred Direction, across three phases with a clear deliverable each.",
         bad: "A list of workshops with no hierarchy or logic." },
-    { step: 10, ph: "Build · 10", t: "Barriers & enablers",
+    { step: 10, ph: "Build · 10", t: "Barriers & enablers", key: "barriersEnablers",
         q: "What could make this difficult or risky — and what conditions would make it possible?",
         good: "Tight Council timelines; community mistrust; visible senior-leader commitment; trauma-informed design.",
         bad: "Time; resources; people might not agree." }
@@ -95,29 +96,26 @@
     ];
 
     // ---------- state ----------
-    let current = $state(1);
-    let panelOpen = $state(true);
-
-    // Step 1 — frame
-    let decisionText = $state("");
-    let authorityText = $state("");
-    let temporal = $state(null);
-
-    // Step 2 — scorer
-    let answers = $state(Array(10).fill(null));
-
-    // Step 3 — gate
-    let gateChecked = $state(Array(5).fill(false));
-    let gateTouched = $state(false);
-
-    // Step 4 — process type
-    let scope = $state(null);
-    let oversight = $state(null);
-    let complexity = $state(null);
+    let userState = $state({
+        current: 1,
+        panelOpen: true,
+        frame: { decisionText: "", authorityText: "", temporal: null },
+        scorer: { answers: Array(10).fill(null) },
+        gate: { gateChecked: Array(5).fill(false), gateTouched: false },
+        processType: { scope: null, oversight: null, complexity: null },
+        build: {
+            roleMandate: "",
+            representation: "",
+            learningNeeds: "",
+            broaderEngagement: "",
+            barriersEnablers: "",
+        },
+        framework: { userState: [], finished: false },
+    });
 
     // ---------- derived ----------
-    let answeredCount = $derived(answers.filter((v) => v !== null).length);
-    let score = $derived(answeredCount === 10 ? answers.reduce((a, b) => a + b, 0) / 10 : null);
+    let answeredCount = $derived(userState.scorer.answers.filter((v) => v !== null).length);
+    let score = $derived(answeredCount === 10 ? userState.scorer.answers.reduce((a, b) => a + b, 0) / 10 : null);
     let level = $derived(score !== null ? levelFor(score) : null);
     let needlePct = $derived(score !== null ? ((score - 1) / 4) * 100 : 0);
     let engContinueDisabled = $derived(answeredCount < 10);
@@ -127,9 +125,9 @@
         return LEVELS[LEVELS.length - 1];
     }
 
-    let gateOnCount = $derived(gateChecked.filter(Boolean).length);
+    let gateOnCount = $derived(userState.gate.gateChecked.filter(Boolean).length);
     let gateVerdict = $derived.by(() => {
-        if (!gateTouched) return null;
+        if (!userState.gate.gateTouched) return null;
         if (gateOnCount >= 4) return { cls: "proceed", badge: "Well suited", bg: "var(--l4)", fg: "#fff",
             msg: "Deliberation looks like a strong fit. Continue to choose the structure that matches your decision." };
         if (gateOnCount >= 2) return { cls: "proceed", badge: "Worth considering", bg: "var(--l2)", fg: "var(--l2t)",
@@ -139,15 +137,15 @@
     });
 
     let recommendation = $derived.by(() => {
-        if (!scope || !oversight || !complexity) return null;
+        if (!userState.processType.scope || !userState.processType.oversight || !userState.processType.complexity) return null;
         let primary, runner, why;
-        if (temporal === "phased") {
+        if (userState.frame.temporal === "phased") {
             primary = "wg"; runner = "ca";
             why = "A defined project with phases calls for a body with a sustained role across the lifecycle, tied directly to the technical work.";
-        } else if (oversight === "yes" || scope === "evolving" || temporal === "ongoing") {
+        } else if (userState.processType.oversight === "yes" || userState.processType.scope === "evolving" || userState.frame.temporal === "ongoing") {
             primary = "standing"; runner = "hybrid";
             why = "Ongoing governance and the need to revisit decisions favour a standing structure with continuity over time.";
-        } else if (complexity === "high") {
+        } else if (userState.processType.complexity === "high") {
             primary = "hybrid"; runner = "ca";
             why = "A bounded but highly technical decision benefits from pairing lay judgement with expert depth.";
         } else {
@@ -158,12 +156,12 @@
     });
 
     function goTo(n) {
-        current = n;
+        userState.current = n;
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function onGateChange() {
-        gateTouched = true;
+        userState.gate.gateTouched = true;
     }
 
     // framework tool variables
@@ -176,9 +174,9 @@
 </svelte:head>
 
 <HeaderBar page={"Interactive Tool"}/>
-<div class="shell {panelOpen ? "": "panel-closed"}">
+<div class="shell {userState.panelOpen ? "": "panel-closed"}">
     <nav class="rail">
-        <button class="toggle-panel {panelOpen ? "open" : ""}" onclick={() => {panelOpen = !panelOpen}}>
+        <button class="toggle-panel {userState.panelOpen ? "open" : ""}" onclick={() => {userState.panelOpen = !userState.panelOpen}}>
             <TogglePanel fill={"var(--muted)"}/>
         </button>
         {#each RAIL as p}
@@ -187,12 +185,12 @@
                 {#each p.items as [n, label]}
                 <button
                     class="navitem"
-                    class:active={current === n}
-                    class:done={n < current}
+                    class:active={userState.current === n}
+                    class:done={n < userState.current}
                     onclick={() => goTo(n)}
                 >
                     <span class="num">{String(n).padStart(2, "0")}</span>
-                    <span style="{panelOpen ? "": "display: none"}">{label}</span>
+                    <span style="{userState.panelOpen ? "": "display: none"}">{label}</span>
                 </button>
                 {/each}
             </div>
@@ -201,7 +199,7 @@
 
     <main>
         <!-- STEP 1 — FRAME -->
-        {#if current === 1}
+        {#if userState.current === 1}
         <section class="step show">
             <div class="eyebrow">Diagnose · 01</div>
             <h2 class="title">Frame the project</h2>
@@ -211,18 +209,18 @@
             <div class="field">
             <label for="decision">In one sentence, what is the core decision or challenge this process needs to help resolve?</label>
             <div class="hint">Aim for clear, simple, specific — name the actual decision, not the topic area.</div>
-            <textarea id="decision" bind:value={decisionText} placeholder="e.g. Where should the relocated community centre be sited, and what should it prioritise?"></textarea>
+            <textarea id="decision" bind:value={userState.frame.decisionText} placeholder="e.g. Where should the relocated community centre be sited, and what should it prioritise?"></textarea>
             </div>
             <div class="field">
             <label for="authority">Who holds final decision authority?</label>
-            <input id="authority" type="text" bind:value={authorityText} placeholder="e.g. City Council, on staff recommendation" />
+            <input id="authority" type="text" bind:value={userState.frame.authorityText} placeholder="e.g. City Council, on staff recommendation" />
             </div>
             <div class="field">
             <p>What is the nature of this decision?</p>
             <div class="radioset">
-                <label class:sel={temporal === "onetime"}><input type="radio" bind:group={temporal} value="onetime" /> A one-time, bounded decision</label>
-                <label class:sel={temporal === "ongoing"}><input type="radio" bind:group={temporal} value="ongoing" /> Ongoing governance of a system or issue</label>
-                <label class:sel={temporal === "phased"}><input type="radio" bind:group={temporal} value="phased" /> Embedded in a defined project with phases</label>
+                <label class:sel={userState.frame.temporal === "onetime"}><input type="radio" bind:group={userState.frame.temporal} value="onetime" /> A one-time, bounded decision</label>
+                <label class:sel={userState.frame.temporal === "ongoing"}><input type="radio" bind:group={userState.frame.temporal} value="ongoing" /> Ongoing governance of a system or issue</label>
+                <label class:sel={userState.frame.temporal === "phased"}><input type="radio" bind:group={userState.frame.temporal} value="phased" /> Embedded in a defined project with phases</label>
             </div>
             </div>
             <div class="navbtns">
@@ -233,7 +231,7 @@
         {/if}
 
         <!-- STEP 2 — ENGAGEMENT SCORER -->
-        {#if current === 2}
+        {#if userState.current === 2}
         <section class="step show">
             <div class="eyebrow">Diagnose · 02</div>
             <h2 class="title">Level of engagement</h2>
@@ -258,7 +256,7 @@
                         <input
                         type="radio"
                         id={"q" + i + "_" + v}
-                        bind:group={answers[i]}
+                        bind:group={userState.scorer.answers[i]}
                         value={v}
                         aria-label={"Question " + (i + 1) + ": " + LABELS[v - 1]}
                         />
@@ -316,7 +314,7 @@
         {/if}
 
         <!-- STEP 3 — DELIBERATION GATE -->
-        {#if current === 3}
+        {#if userState.current === 3}
         <section class="step show">
             <div class="eyebrow">Diagnose · 03</div>
             <h2 class="title">Is deliberation the right instrument?</h2>
@@ -325,8 +323,8 @@
             </p>
             <div id="gate">
             {#each GATE as [title, desc], i}
-                <label class="check" class:on={gateChecked[i]}>
-                <input type="checkbox" bind:checked={gateChecked[i]} onchange={onGateChange} />
+                <label class="check" class:on={userState.gate.gateChecked[i]}>
+                <input type="checkbox" bind:checked={userState.gate.gateChecked[i]} onchange={onGateChange} />
                 <span><span class="ct">{title}</span><br /><span class="cs">{desc}</span></span>
                 </label>
             {/each}
@@ -346,7 +344,7 @@
         {/if}
 
         <!-- STEP 4 — PROCESS TYPE -->
-        {#if current === 4}
+        {#if userState.current === 4}
         <section class="step show">
             <div class="eyebrow">Diagnose · 04</div>
             <h2 class="title">What type of deliberative process?</h2>
@@ -356,23 +354,23 @@
             <div class="field">
             <p>Is this one bounded question, or a set of issues that will evolve over time?</p>
             <div class="radioset">
-                <label class:sel={scope === "single"}><input type="radio" bind:group={scope} value="single" /> One bounded question</label>
-                <label class:sel={scope === "evolving"}><input type="radio" bind:group={scope} value="evolving" /> An evolving set of issues</label>
+                <label class:sel={userState.processType.scope === "single"}><input type="radio" bind:group={userState.processType.scope} value="single" /> One bounded question</label>
+                <label class:sel={userState.processType.scope === "evolving"}><input type="radio" bind:group={userState.processType.scope} value="evolving" /> An evolving set of issues</label>
             </div>
             </div>
             <div class="field">
             <p>Does this need standing oversight and the ability to revisit decisions over time?</p>
             <div class="radioset">
-                <label class:sel={oversight === "yes"}><input type="radio" bind:group={oversight} value="yes" /> Yes, ongoing oversight</label>
-                <label class:sel={oversight === "no"}><input type="radio" bind:group={oversight} value="no" /> No, a one-time recommendation</label>
+                <label class:sel={userState.processType.oversight === "yes"}><input type="radio" bind:group={userState.processType.oversight} value="yes" /> Yes, ongoing oversight</label>
+                <label class:sel={userState.processType.oversight === "no"}><input type="radio" bind:group={userState.processType.oversight} value="no" /> No, a one-time recommendation</label>
             </div>
             </div>
             <div class="field">
             <p>How technically complex is the subject?</p>
             <div class="radioset">
-                <label class:sel={complexity === "low"}><input type="radio" bind:group={complexity} value="low" /> Low</label>
-                <label class:sel={complexity === "med"}><input type="radio" bind:group={complexity} value="med" /> Moderate</label>
-                <label class:sel={complexity === "high"}><input type="radio" bind:group={complexity} value="high" /> High — needs expert input</label>
+                <label class:sel={userState.processType.complexity === "low"}><input type="radio" bind:group={userState.processType.complexity} value="low" /> Low</label>
+                <label class:sel={userState.processType.complexity === "med"}><input type="radio" bind:group={userState.processType.complexity} value="med" /> Moderate</label>
+                <label class:sel={userState.processType.complexity === "high"}><input type="radio" bind:group={userState.processType.complexity} value="high" /> High — needs expert input</label>
             </div>
             </div>
             {#if recommendation}
@@ -393,16 +391,16 @@
         {/if}
 
         <!-- STEPS 5-10 — BUILD (generated) -->
-        {#each BUILD as d}
-            {#if current === 9 && current === d.step}
+        {#each BUILD as d, index}
+            {#if userState.current === 9 && userState.current === d.step}
                 <div class="eyebrow">{d.ph}</div>
-                <FrameworkTool bind:userState={frameworkState} bind:finished={frameworkFinished}/>
+                <FrameworkTool bind:userState={userState.framework.userState} bind:finished={userState.framework.finished}/>
                 <div class="navbtns">
                     <button class="btn ghost" onclick={() => goTo(d.step - 1)}>Back</button>
-                    <button class="btn primary" onclick={() => goTo(d.step + 1)} disabled={!frameworkFinished}>Continue</button>
+                    <button class="btn primary" onclick={() => goTo(d.step + 1)} disabled={!userState.framework.finished}>Continue</button>
                     <span class="stepcount">Step {d.step} of 11</span>
                 </div>
-            {:else if current === d.step}
+            {:else if userState.current === d.step}
                 <section class="step show">
                 <div class="eyebrow">{d.ph}</div>
                 <h2 class="title">{d.t}</h2>
@@ -414,12 +412,10 @@
                     <div class="ex bad"><h5>Weak response</h5><p>{d.bad}</p></div>
                     </div>
                 </div>
-                <p class="lead" style="font-size:14px; margin-top:6px">
-                    Each build module pairs the worksheet question with live coaching drawn from the facilitator's guide — good and weak examples, and a "sharpen this answer" check.
-                </p>
+                <textarea id="decision" bind:value={userState.build[d.key]} placeholder={d.placeholder}></textarea>
                 <div class="navbtns">
                     <button class="btn ghost" onclick={() => goTo(d.step - 1)}>Back</button>
-                    <button class="btn primary" onclick={() => goTo(d.step + 1)}>Continue</button>
+                    <button class="btn primary" onclick={() => {goTo(d.step + 1); console.log(userState)}}>Continue</button>
                     <span class="stepcount">Step {d.step} of 11</span>
                 </div>
                 </section>
@@ -427,11 +423,26 @@
         {/each}
 
         <!-- STEP 11 — GENERATE -->
-        {#if current === 11}
+        {#if userState.current === 11}
         <section class="step show">
             <div class="eyebrow">Generate · 11</div>
             <h2 class="title">Your design</h2>
             <div class="preview-note"><span>○</span> Output preview — generated from every answer above</div>
+            <div>
+                {#each Object.keys(userState) as section}
+                    {#if (typeof userState[section] != "number") && (typeof userState[section] != "boolean")}
+                        <h3>{section.toWellFormed()}</h3>
+                        {#each Object.keys(userState[section]) as entry}
+                            <p>{entry}: {userState[section][entry]}</p>
+                        {/each}
+                    {/if}
+                {/each}
+
+                {#if userState.framework.finished}
+                    <Diagram userState={userState.framework.userState}/>
+                {/if}
+            </div>
+            
             <div class="outgrid">
             <div class="outcard">
                 <h3>Engagement &amp; deliberation design brief</h3>

@@ -68,10 +68,6 @@
 
     let currentUserState = $derived(userState[currentTierIndex]);
 
-    let selected = $state();
-
-    let disposition = $state();
-
     let startingPoint = $state(userState[0].hasPreset ? "preset" : (isValidUserState ? "scratch" : ""));
 
     let preset = $derived.by(() => {
@@ -149,8 +145,8 @@
                 {#if userState[0].hasPreset}
                     <h2 class="pill">{userState[0].presetName[0]}</h2>
                 {/if}
-                <p>{currentTier.description}</p>
             </div>
+            <p>{currentTier.description}</p>
             {#if currentTier.branch}
                 <div class="tier-toggle">
                     <p class="branch-description">This branching point puts your framework into one of two process families, that dictates the available components.</p>
