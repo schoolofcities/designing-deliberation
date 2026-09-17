@@ -53,6 +53,7 @@
 		background-color: var(--l2);
 		border: none;
 		border-radius: 5px;
+		text-decoration: none;
 	}
 
 	.choice-box:hover {
