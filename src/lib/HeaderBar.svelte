@@ -16,7 +16,7 @@
         {/if}
     </div>
     <div class="links">
-        <a href="/designing-deliberation/interactive-tool" class="page-link" class:current={page === "Interactive Tool"}>Interactive Tool</a>
+        <a href="/designing-deliberation/interactive-tool" class="page-link" class:current={["Interactive Tool", "Framework Builder", "Strategy Builder"].includes(page)}>Interactive Tool</a>
         <a href="/designing-deliberation/case-studies" class="page-link" class:current={page === "Case Studies"}>Case Studies</a>
         <a href="/designing-deliberation/concept-library" class="page-link" class:current={page === "Concept Library"}>Concept Library</a>
         <a href="/designing-deliberation/resources" class="page-link" class:current={page === "Resources"}>Resources</a>

@@ -61,5 +61,9 @@
 		opacity: 80%;
 	}
 
+	p {
+		margin: 0;
+	}
+
 </style>
 
