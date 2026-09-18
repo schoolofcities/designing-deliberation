@@ -179,6 +179,7 @@
 
 html, body { 
 	margin: 0; 
+	height: 100%;
 }
 
 body {
@@ -203,3 +204,59 @@ p {
 }
 
 button { font-family: inherit; }
+
+
+
+.choices-container {
+	display: flex; 
+	flex-direction: row; 
+	align-content: center; 
+	justify-content: space-evenly;
+	margin-bottom: 50px; 
+}
+
+.choice-box {
+	margin-top: 20px;
+	text-align: center;
+	padding: 20px;
+	width: 35dvw;
+	height: 35dvw;
+	border-color: var(--pine-dk);
+	background-color: var(--pine);
+	color: white;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center; 
+	justify-content: center;
+	text-decoration: none;
+}
+
+.choice-box:hover {
+	cursor: pointer;
+	opacity: 80%;
+}
+
+
+@media (max-width: 700px) {
+	.choice-box {
+		height: 35dvh;
+		width: 35dvh;
+	}
+
+	.choices-container {
+		flex-direction: column; 
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.choice-box h2{
+		font-size: 24px;
+	}
+
+	.choice-box p {
+		font-size: 14px;
+	}
+} 

@@ -2,7 +2,13 @@
 	import HeaderBar from '$lib/HeaderBar.svelte';
     import { page } from "$app/stores";
     import ResourceCard from '$lib/ResourceCard.svelte';
+    import { onMount } from 'svelte';
+    import ToolCallout from '$lib/ToolCallout.svelte';
+    import { userMode } from '$lib/userMode.svelte.js';
+    import { use } from 'marked';
 
+
+	const pageTitle = "Resources"
     let resources = $page.data.resources;
 
 </script>
@@ -10,13 +16,13 @@
 
 <svelte:head>
 
-<title>Designing Deliberation - Resources</title>
+<title>Designing Deliberation - {pageTitle}</title>
 
 </svelte:head>
 
-<HeaderBar page="Resources"/>
+<HeaderBar page={pageTitle}/>
 <main>
-	<h1>Resources</h1>
+	<h1>{pageTitle}</h1>
 	{#if resources}
 		{#each Object.keys(resources) as category}
 			<div class="category">
@@ -28,6 +34,9 @@
 				</div>
 			</div>
 		{/each}
+	{/if}
+	{#if userMode.beginner}
+		<ToolCallout page={pageTitle}/>
 	{/if}
 </main>
 

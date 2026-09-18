@@ -1,10 +1,8 @@
 <script>
 	import HeaderBar from '$lib/HeaderBar.svelte';
-	import '../assets/global-styles.css'; 
 	import { base } from '$app/paths';
-
+    import { setBeginner } from '$lib/userMode.svelte.js';
 </script>
-
 
 <svelte:head>
 
@@ -16,13 +14,15 @@
 <div class="page">
 	<h1>Designing Deliberation</h1>
 	<p>This will be copy explaining the framework. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	<div class="level-choices">
-		<a href="/designing-deliberation/case-studies" class="choice-box beginner">
+	<div class="choices-container">
+		<a href="/designing-deliberation/case-studies" class="choice-box beginner"
+			onclick={() => setBeginner(true)}>
 			<h2> I am a beginner</h2>
 			<p>Guide me through the process step-by-step!</p>
 		</a>
 
-		<a href="/designing-deliberation/interactive-tool" class="choice-box experienced">
+		<a href="/designing-deliberation/interactive-tool" class="choice-box experienced"
+			onclick={() => setBeginner(false)}>
 			<h2> I have experience doing this! </h2>
 			<p>Take me directly to the framework builder tool!</p>
 		</a>
@@ -37,32 +37,8 @@
 		padding-top: 40px;
 	}
 
-	.level-choices {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-	}
-
-	.choice-box {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 40px;
-		box-sizing: border-box;
-		width: 35%;
-		background-color: var(--l2);
-		border: none;
-		border-radius: 5px;
-		text-decoration: none;
-	}
-
-	.choice-box:hover {
-		cursor: pointer;
-		opacity: 80%;
-	}
-
-	p {
-		margin: 0;
+	h1 {
+		font-size: 50px;
 	}
 
 </style>

@@ -174,82 +174,20 @@
 
 <HeaderBar page={"Interactive Tool"}/>
 <main class="tool-option-select">
-    <h1>Hi! What do you want to build?</h1>
-    <div class="options-container">
-        <a class="tool-option" href={"/designing-deliberation/interactive-tool/strategy"}>
-            <h3>Build a strategy</h3>
+    <h1>What do you want to build?</h1>
+    <div class="choices-container">
+        <a class="choice-box" href={"/designing-deliberation/interactive-tool/strategy"}>
+            <h2>Build a strategy</h2>
             <p>Go through the whole tool (interactive text prompts and framework builder)</p>
         </a>
-        <a class="tool-option" href={"/designing-deliberation/interactive-tool/framework"}>
-            <h3>Build a framework</h3>
+        <a class="choice-box" href={"/designing-deliberation/interactive-tool/framework"}>
+            <h2>Build a framework</h2>
             <p>Just the framework builder</p>
         </a>
     </div>
 </main>
 
 <style>
-    .tool-option h3{
-        font-size: 30px;
-    }
-
-    .tool-option p {
-        font-size: 18px;
-        text-align: center;
-    }
-
-    .tool-option {
-        margin-top: 20px;
-        width: 35dvw;
-        height: 35dvw;
-        border-color: var(--pine-dk);
-        background-color: var(--pine);
-        color: white;
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center; 
-        justify-content: center;
-        text-decoration: none;
-    }
-
-    .options-container {
-        display: flex; 
-        flex-direction: row; 
-        align-content: center; 
-        justify-content: space-evenly;
-    }
-
-    .tool-option:hover {
-        cursor: pointer;
-        opacity: 75%;
-    }
-
-    /* ---------- Main ---------- */
     main { padding: 34px 40px 80px; max-width: 1500px; }
-    
-    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
    
-    @media (max-width: 700px) {
-        .tool-option {
-            height: 35dvh;
-            width: 35dvh;
-        }
-
-        .options-container {
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        
-        .tool-option h3{
-            font-size: 24px;
-        }
-
-        .tool-option p {
-            font-size: 14px;
-        }
-    } 
 </style>

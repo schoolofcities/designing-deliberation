@@ -2,12 +2,16 @@
 	import HeaderBar from '$lib/HeaderBar.svelte';
 	import TogglePanel from '$lib/icons/TogglePanel.svelte';
     import { page } from "$app/stores";
+    import { onMount } from 'svelte';
+    import ToolCallout from '$lib/ToolCallout.svelte';
+    import { userMode } from '$lib/userMode.svelte.js';
 
+    const pageTitle = "Case Studies";
 	let panelOpen = $state(true);
 	let selectedIndex = $state(0);
 
     let scenarios = $page.data.scenarios;
-
+    
     function goTo(index) {
         selectedIndex = index;
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
@@ -16,10 +20,10 @@
 
 
 <svelte:head>
-	<title>Designing Deliberation - Case Studies</title>
+	<title>Designing Deliberation - {pageTitle}</title>
 </svelte:head>
 
-<HeaderBar page="Case Studies"/>
+<HeaderBar page={pageTitle}/>
 <div class="shell {panelOpen ? "": "panel-closed"}">
     <nav class="rail">
         <button class="toggle-panel {panelOpen ? "open" : ""}" onclick={() => {panelOpen = !panelOpen}}>
@@ -54,6 +58,9 @@
                 {/each}
             {/if}
         </div>
+        {#if userMode.beginner}
+            <ToolCallout page={pageTitle}/>
+        {/if}
 	</main>
 </div>	
 

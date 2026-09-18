@@ -1,8 +1,11 @@
 <script>
 	import HeaderBar from '$lib/HeaderBar.svelte';
     import { page } from "$app/stores";
+    import ToolCallout from '$lib/ToolCallout.svelte';
+    import { userMode } from '$lib/userMode.svelte.js';
 
     let concepts = $page.data.concepts;
+	let pageTitle = "Concept Library";
 
 </script>
 
@@ -13,9 +16,9 @@
 
 </svelte:head>
 
-<HeaderBar page="Concept Library"/>
+<HeaderBar page={pageTitle}/>
 <main class="shell">
-	<h1>Concept Library</h1>
+	<h1>{pageTitle}</h1>
 	{#if concepts}
 		{#each Object.keys(concepts) as letter}
 			<div class="concept">
@@ -28,6 +31,9 @@
 				{/each}
 			</div>
 		{/each}
+	{/if}
+	{#if userMode.beginner}
+		<ToolCallout page={pageTitle}/>
 	{/if}
 </main>
 
