@@ -1,0 +1,1 @@
+import{p as r}from"./CJsf8P_0.js";const n=r({beginner:!1});function t(e){n.beginner=e,localStorage.setItem("beginner",String(e))}function s(){n.beginner=localStorage.getItem("beginner")==="true"}export{s as l,t as s,n as u};
