@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import ToolCallout from '$lib/ToolCallout.svelte';
     import { userMode } from '$lib/userMode.svelte.js';
+    import { marked } from 'marked';
 
     const pageTitle = "Case Studies";
 	let panelOpen = $state(true);
@@ -53,7 +54,7 @@
                 {#each Object.keys(scenarios[selectedIndex]) as section}
                     {#if section !== "Title"}
                         <h3>{section.replaceAll("_", " ")}</h3>
-                        <p>{scenarios[selectedIndex][section]}</p>
+                        {@html marked(scenarios[selectedIndex][section])}
                     {/if}
                 {/each}
             {/if}
